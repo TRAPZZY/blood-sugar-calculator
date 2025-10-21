@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Blood Sugar Monitor - Track Your Health{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <h1 class="hero-title">Blood Sugar Monitor</h1>
+    <p class="hero-subtitle">Take control of your health with comprehensive blood sugar tracking and analysis</p>
+    <div class="btn-group" style="justify-content: center;">
+        <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Get Started</a>
+        <a href="{{ url_for('auth.login') }}" class="btn btn-secondary">Login</a>
+    </div>
+</div>
+
+<div class="feature-grid">
+    <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3 class="feature-title">Track & Analyze</h3>
+        <p>Record your blood sugar levels and get instant insights into your health trends with detailed analytics and visualizations.</p>
+    </div>
+
+    <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3 class="feature-title">Set Goals</h3>
+        <p>Define personalized target ranges and track your progress towards achieving optimal blood sugar levels.</p>
+    </div>
+
+    <div class="feature-card">
+        <div class="feature-icon">📈</div>
+        <h3 class="feature-title">Predict Trends</h3>
+        <p>Use advanced linear regression analysis to forecast your blood sugar levels and plan ahead.</p>
+    </div>
+
+    <div class="feature-card">
+        <div class="feature-icon">🔔</div>
+        <h3 class="feature-title">Smart Reminders</h3>
+        <p>Never miss a reading with customizable reminder intervals to maintain consistent tracking.</p>
+    </div>
+
+    <div class="feature-card">
+        <div class="feature-icon">🍽️</div>
+        <h3 class="feature-title">Meal Suggestions</h3>
+        <p>Get personalized meal recommendations based on your current blood sugar levels and goals.</p>
+    </div>
+
+    <div class="feature-card">
+        <div class="feature-icon">📥</div>
+        <h3 class="feature-title">Export Data</h3>
+        <p>Download your blood sugar data as CSV files to share with healthcare professionals or for further analysis.</p>
+    </div>
+</div>
+
+<div class="card" style="margin-top: 3rem; text-align: center;">
+    <h2>Why Choose Blood Sugar Monitor?</h2>
+    <p style="margin-top: 1rem; color: var(--text-light);">
+        Our application provides a comprehensive, user-friendly platform for managing your blood sugar levels.
+        With detailed analytics, personalized insights, and easy-to-use tracking tools, you can take control
+        of your health and make informed decisions about your wellness journey.
+    </p>
+    <ul style="margin-top: 2rem; text-align: left; max-width: 600px; margin-left: auto; margin-right: auto;">
+        <li style="margin-bottom: 1rem;">✅ HIPAA Compliant - Your data is secure and private</li>
+        <li style="margin-bottom: 1rem;">✅ Personalized Experience - Tailored to your unique needs</li>
+        <li style="margin-bottom: 1rem;">✅ Advanced Analytics - Deep insights into your health trends</li>
+        <li style="margin-bottom: 1rem;">✅ Easy to Use - Intuitive interface for effortless tracking</li>
+        <li style="margin-bottom: 1rem;">✅ Always Accessible - Access your data anytime, anywhere</li>
+    </ul>
+    <a href="{{ url_for('auth.register') }}" class="btn btn-primary" style="margin-top: 2rem;">Start Your Health Journey Today</a>
+</div>
+{% endblock %}

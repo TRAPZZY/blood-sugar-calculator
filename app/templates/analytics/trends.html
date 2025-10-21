@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Trends - Blood Sugar Monitor{% endblock %}
+
+{% block content %}
+<h1>Blood Sugar Trends Analysis</h1>
+
+{% if has_data %}
+<div class="card-grid">
+    <div class="stat-card">
+        <div class="stat-label">Total Readings</div>
+        <div class="stat-value">{{ stats.total_readings }}</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-label">Overall Average</div>
+        <div class="stat-value">{{ stats.average }}</div>
+        <div class="stat-label">mg/dL</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-label">Range</div>
+        <div class="stat-value" style="font-size: 1.5rem;">{{ stats.min }} - {{ stats.max }}</div>
+        <div class="stat-label">mg/dL</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-label">Standard Deviation</div>
+        <div class="stat-value">{{ stats.std_dev }}</div>
+        <div class="stat-label">mg/dL</div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">Trend Analysis</div>
+    <p style="font-size: 1.1rem; padding: 1rem; background-color: var(--light-color); border-radius: 4px;">
+        <strong>{{ stats.trend }}</strong>
+    </p>
+</div>
+
+<div class="card">
+    <div class="card-header">Blood Sugar Distribution</div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+        <div style="text-align: center; padding: 1rem; background-color: #fee2e2; border-radius: 4px;">
+            <div style="font-size: 2rem; font-weight: bold; color: #991b1b;">{{ distribution.critical_low }}</div>
+            <div>Critical Low (&lt;70)</div>
+        </div>
+        <div style="text-align: center; padding: 1rem; background-color: #fed7aa; border-radius: 4px;">
+            <div style="font-size: 2rem; font-weight: bold; color: #92400e;">{{ distribution.low }}</div>
+            <div>Low (70-99)</div>
+        </div>
+        <div style="text-align: center; padding: 1rem; background-color: #d1fae5; border-radius: 4px;">
+            <div style="font-size: 2rem; font-weight: bold; color: #065f46;">{{ distribution.normal }}</div>
+            <div>Normal (100-130)</div>
+        </div>
+        <div style="text-align: center; padding: 1rem; background-color: #fed7aa; border-radius: 4px;">
+            <div style="font-size: 2rem; font-weight: bold; color: #92400e;">{{ distribution.elevated }}</div>
+            <div>Elevated (131-150)</div>
+        </div>
+        <div style="text-align: center; padding: 1rem; background-color: #fee2e2; border-radius: 4px;">
+            <div style="font-size: 2rem; font-weight: bold; color: #991b1b;">{{ distribution.high }}</div>
+            <div>High (&gt;150)</div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">Recommendations</div>
+    {% if stats.average > 150 %}
+    <p>Your average blood sugar is elevated. Consider consulting with your healthcare provider for personalized advice and possible medication adjustments.</p>
+    {% elif stats.average < 100 %}
+    <p>Your average blood sugar is below normal. Consider adjusting your diet to include more complex carbohydrates and consult with your healthcare provider.</p>
+    {% else %}
+    <p>Your blood sugar management is on track! Continue with your current routine and maintain healthy lifestyle habits.</p>
+    {% endif %}
+</div>
+
+{% else %}
+<div class="card" style="text-align: center; padding: 3rem;">
+    <h2>Insufficient Data</h2>
+    <p style="margin-top: 1rem; color: var(--text-light);">Add more blood sugar readings to see trend analysis.</p>
+    <a href="{{ url_for('readings.add') }}" class="btn btn-primary" style="margin-top: 2rem;">Add Reading</a>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}All Readings - Blood Sugar Monitor{% endblock %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <h1>All Blood Sugar Readings</h1>
+    <a href="{{ url_for('readings.add') }}" class="btn btn-primary">Add New Reading</a>
+</div>
+
+{% if readings %}
+<div class="card">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date & Time</th>
+                <th>Blood Sugar</th>
+                <th>Meal Context</th>
+                <th>Status</th>
+                <th>Notes</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reading in readings %}
+            <tr>
+                <td>{{ reading.reading_time.strftime('%b %d, %Y %I:%M %p') }}</td>
+                <td class="{% if reading.value < 70 %}status-critical-low{% elif reading.value < 100 %}status-low{% elif reading.value <= 130 %}status-normal{% elif reading.value <= 150 %}status-elevated{% else %}status-high{% endif %}">
+                    <strong>{{ reading.value }} mg/dL</strong>
+                </td>
+                <td>{{ reading.meal_context or 'N/A' }}</td>
+                <td>
+                    <span class="badge {% if reading.value < 70 %}badge-danger{% elif reading.value < 100 %}badge-warning{% elif reading.value <= 130 %}badge-success{% elif reading.value <= 150 %}badge-warning{% else %}badge-danger{% endif %}">
+                        {% if reading.value < 70 %}Critical Low
+                        {% elif reading.value < 100 %}Low
+                        {% elif reading.value <= 130 %}Normal
+                        {% elif reading.value <= 150 %}Elevated
+                        {% else %}High{% endif %}
+                    </span>
+                </td>
+                <td>{{ reading.notes[:50] if reading.notes else '' }}{{ '...' if reading.notes and reading.notes|length > 50 else '' }}</td>
+                <td>
+                    <a href="{{ url_for('readings.edit', reading_id=reading.id) }}" class="btn btn-secondary" style="padding: 0.5rem 1rem; margin-right: 0.5rem;">Edit</a>
+                    <form method="POST" action="{{ url_for('readings.delete', reading_id=reading.id) }}" style="display: inline;">
+                        <button type="submit" class="btn btn-danger" style="padding: 0.5rem 1rem;" onclick="return confirmDelete('Are you sure you want to delete this reading?')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if pagination.pages > 1 %}
+<div class="pagination">
+    {% if pagination.has_prev %}
+        <a href="{{ url_for('readings.index', page=pagination.prev_num) }}">&laquo; Previous</a>
+    {% endif %}
+
+    {% for page_num in pagination.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+        {% if page_num %}
+            {% if page_num == pagination.page %}
+                <span class="active">{{ page_num }}</span>
+            {% else %}
+                <a href="{{ url_for('readings.index', page=page_num) }}">{{ page_num }}</a>
+            {% endif %}
+        {% else %}
+            <span>...</span>
+        {% endif %}
+    {% endfor %}
+
+    {% if pagination.has_next %}
+        <a href="{{ url_for('readings.index', page=pagination.next_num) }}">Next &raquo;</a>
+    {% endif %}
+</div>
+{% endif %}
+
+{% else %}
+<div class="card" style="text-align: center; padding: 3rem;">
+    <h2>No Readings Yet</h2>
+    <p style="margin-top: 1rem; color: var(--text-light);">Start tracking your blood sugar by adding your first reading.</p>
+    <a href="{{ url_for('readings.add') }}" class="btn btn-primary" style="margin-top: 2rem;">Add First Reading</a>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Analytics - Blood Sugar Monitor{% endblock %}
+
+{% block content %}
+<h1>Analytics Dashboard</h1>
+
+<div class="card-grid">
+    <div class="card">
+        <h3>Trend Analysis</h3>
+        <p>View detailed analysis of your blood sugar trends over time and identify patterns.</p>
+        <a href="{{ url_for('analytics.trends') }}" class="btn btn-primary" style="margin-top: 1rem;">View Trends</a>
+    </div>
+
+    <div class="card">
+        <h3>Week Comparison</h3>
+        <p>Compare your blood sugar levels across different weeks to track improvements.</p>
+        <a href="{{ url_for('analytics.compare_weeks') }}" class="btn btn-primary" style="margin-top: 1rem;">Compare Weeks</a>
+    </div>
+
+    <div class="card">
+        <h3>Predictions</h3>
+        <p>Use linear regression analysis to forecast future blood sugar levels.</p>
+        <a href="{{ url_for('analytics.predictions') }}" class="btn btn-primary" style="margin-top: 1rem;">View Predictions</a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">Recent Trends (Last 30 Days)</div>
+    <div class="chart-container">
+        <canvas id="recentTrendsChart"></canvas>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">Blood Sugar Distribution</div>
+    <div class="chart-container">
+        <canvas id="distributionChart"></canvas>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Load recent trends chart
+    loadChartData('/analytics/api/chart-data?type=line&days=30', 'recentTrendsChart', 'line');
+
+    // Load distribution chart
+    loadChartData('/analytics/api/chart-data?type=distribution&days=30', 'distributionChart', 'distribution');
+});
+</script>
+{% endblock %}

@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Blood Sugar Monitor{% endblock %}
+
+{% block content %}
+<h1>Welcome back, {{ current_user.first_name }}!</h1>
+
+<div class="card-grid">
+    <div class="stat-card">
+        <div class="stat-label">7-Day Average</div>
+        <div class="stat-value">{{ stats.average or 'N/A' }}</div>
+        <div class="stat-label">mg/dL</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-label">Total Readings</div>
+        <div class="stat-value">{{ stats.count }}</div>
+        <div class="stat-label">Last 7 Days</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-label">Range (7 Days)</div>
+        <div class="stat-value">{{ stats.min or 'N/A' }} - {{ stats.max or 'N/A' }}</div>
+        <div class="stat-label">mg/dL</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-label">Trend</div>
+        <div class="stat-value stat-trend {% if stats.trend == 'increasing' %}trend-up{% elif stats.trend == 'decreasing' %}trend-down{% else %}trend-stable{% endif %}">
+            {% if stats.trend == 'increasing' %}↑{% elif stats.trend == 'decreasing' %}↓{% else %}→{% endif %}
+        </div>
+        <div class="stat-label">
+            {% if stats.trend == 'increasing' %}Increasing
+            {% elif stats.trend == 'decreasing' %}Decreasing
+            {% elif stats.trend == 'stable' %}Stable
+            {% else %}No Data{% endif %}
+        </div>
+    </div>
+</div>
+
+{% if latest_reading %}
+<div class="card">
+    <div class="card-header">Latest Reading</div>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h2 class="{% if latest_reading.value < 70 %}status-critical-low{% elif latest_reading.value < 100 %}status-low{% elif latest_reading.value <= 130 %}status-normal{% elif latest_reading.value <= 150 %}status-elevated{% else %}status-high{% endif %}">
+                {{ latest_reading.value }} mg/dL
+            </h2>
+            <p>{{ latest_reading.reading_time.strftime('%B %d, %Y at %I:%M %p') }}</p>
+        </div>
+        <div>
+            <span class="badge {% if latest_reading.value < 70 %}badge-danger{% elif latest_reading.value < 100 %}badge-warning{% elif latest_reading.value <= 130 %}badge-success{% elif latest_reading.value <= 150 %}badge-warning{% else %}badge-danger{% endif %}">
+                {% if latest_reading.value < 70 %}Critical Low
+                {% elif latest_reading.value < 100 %}Low
+                {% elif latest_reading.value <= 130 %}Normal
+                {% elif latest_reading.value <= 150 %}Elevated
+                {% else %}High{% endif %}
+            </span>
+        </div>
+    </div>
+    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+        <p><strong>Recommendation:</strong> {{ latest_reading.get_recommendation() }}</p>
+        <p style="margin-top: 0.5rem;"><strong>Meal Suggestion:</strong> {{ latest_reading.get_meal_suggestion() }}</p>
+    </div>
+</div>
+{% endif %}
+
+<div class="card">
+    <div class="card-header">Quick Actions</div>
+    <div class="btn-group">
+        <a href="{{ url_for('readings.add') }}" class="btn btn-primary">Add New Reading</a>
+        <a href="{{ url_for('goals.add') }}" class="btn btn-secondary">Set New Goal</a>
+        <a href="{{ url_for('analytics.trends') }}" class="btn btn-secondary">View Analytics</a>
+        <a href="{{ url_for('readings.export') }}" class="btn btn-secondary">Export Data</a>
+    </div>
+</div>
+
+{% if active_goals %}
+<div class="card">
+    <div class="card-header">Active Goals</div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Goal Name</th>
+                <th>Target Range</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for goal in active_goals %}
+            <tr>
+                <td>{{ goal.name }}</td>
+                <td>{{ goal.target_min }} - {{ goal.target_max }} mg/dL</td>
+                <td>
+                    <a href="{{ url_for('goals.edit', goal_id=goal.id) }}" class="btn btn-secondary" style="padding: 0.5rem 1rem;">Edit</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+{% if recent_readings %}
+<div class="card">
+    <div class="card-header">Recent Readings</div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date & Time</th>
+                <th>Blood Sugar</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reading in recent_readings %}
+            <tr>
+                <td>{{ reading.reading_time.strftime('%b %d, %Y %I:%M %p') }}</td>
+                <td class="{% if reading.value < 70 %}status-critical-low{% elif reading.value < 100 %}status-low{% elif reading.value <= 130 %}status-normal{% elif reading.value <= 150 %}status-elevated{% else %}status-high{% endif %}">
+                    {{ reading.value }} mg/dL
+                </td>
+                <td>
+                    <span class="badge {% if reading.value < 70 %}badge-danger{% elif reading.value < 100 %}badge-warning{% elif reading.value <= 130 %}badge-success{% elif reading.value <= 150 %}badge-warning{% else %}badge-danger{% endif %}">
+                        {% if reading.value < 70 %}Critical Low
+                        {% elif reading.value < 100 %}Low
+                        {% elif reading.value <= 130 %}Normal
+                        {% elif reading.value <= 150 %}Elevated
+                        {% else %}High{% endif %}
+                    </span>
+                </td>
+                <td>
+                    <a href="{{ url_for('readings.edit', reading_id=reading.id) }}" class="btn btn-secondary" style="padding: 0.5rem 1rem;">Edit</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div style="text-align: center; margin-top: 1rem;">
+        <a href="{{ url_for('readings.index') }}" class="btn btn-primary">View All Readings</a>
+    </div>
+</div>
+{% else %}
+<div class="card" style="text-align: center;">
+    <p>No readings yet. <a href="{{ url_for('readings.add') }}">Add your first reading</a> to get started!</p>
+</div>
+{% endif %}
+{% endblock %}

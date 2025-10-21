@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}Predictions - Blood Sugar Monitor{% endblock %}
+
+{% block content %}
+<h1>Blood Sugar Predictions</h1>
+
+{% if has_data %}
+<div class="card-grid">
+    <div class="stat-card">
+        <div class="stat-label">Trend Direction</div>
+        <div class="stat-value">
+            {% if prediction_summary.trend == 'increasing' %}↑
+            {% elif prediction_summary.trend == 'decreasing' %}↓
+            {% else %}→{% endif %}
+        </div>
+        <div class="stat-label">
+            {% if prediction_summary.trend == 'increasing' %}Increasing
+            {% elif prediction_summary.trend == 'decreasing' %}Decreasing
+            {% else %}Stable{% endif %}
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-label">Predicted Next Week Average</div>
+        <div class="stat-value">{{ prediction_summary.next_week_avg }}</div>
+        <div class="stat-label">mg/dL</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-label">Prediction Confidence</div>
+        <div class="stat-value">{{ prediction_summary.confidence }}%</div>
+        <div class="stat-label">R² Score</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-label">Slope</div>
+        <div class="stat-value" style="font-size: 1.5rem;">{{ prediction_summary.slope }}</div>
+        <div class="stat-label">mg/dL per reading</div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">Prediction Analysis</div>
+    {% if prediction_summary.trend == 'increasing' %}
+    <p>Your blood sugar shows an <strong>increasing trend</strong>. This may indicate:</p>
+    <ul style="margin-top: 1rem;">
+        <li>Need for dietary adjustments</li>
+        <li>Possible medication review with your healthcare provider</li>
+        <li>Increased physical activity may be beneficial</li>
+        <li>Monitor stress levels and sleep quality</li>
+    </ul>
+    {% elif prediction_summary.trend == 'decreasing' %}
+    <p>Your blood sugar shows a <strong>decreasing trend</strong>. This may indicate:</p>
+    <ul style="margin-top: 1rem;">
+        <li>Positive response to current treatment plan</li>
+        <li>Effective lifestyle modifications</li>
+        <li>Continue current management strategies</li>
+        <li>Ensure levels don't drop too low (monitor for hypoglycemia)</li>
+    </ul>
+    {% else %}
+    <p>Your blood sugar shows a <strong>stable trend</strong>. This indicates:</p>
+    <ul style="margin-top: 1rem;">
+        <li>Good blood sugar control</li>
+        <li>Consistent management routine</li>
+        <li>Continue with current lifestyle and treatment plan</li>
+        <li>Regular monitoring remains important</li>
+    </ul>
+    {% endif %}
+</div>
+
+<div class="card">
+    <div class="card-header">Next 7 Predictions</div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Prediction #</th>
+                <th>Predicted Value (mg/dL)</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in range(prediction_summary.predictions|length) %}
+            <tr>
+                <td>Reading {{ i + 1 }}</td>
+                <td><strong>{{ prediction_summary.predictions[i] }}</strong></td>
+                <td>
+                    {% set value = prediction_summary.predictions[i] %}
+                    <span class="badge {% if value < 70 %}badge-danger{% elif value < 100 %}badge-warning{% elif value <= 130 %}badge-success{% elif value <= 150 %}badge-warning{% else %}badge-danger{% endif %}">
+                        {% if value < 70 %}Critical Low
+                        {% elif value < 100 %}Low
+                        {% elif value <= 130 %}Normal
+                        {% elif value <= 150 %}Elevated
+                        {% else %}High{% endif %}
+                    </span>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="card">
+    <div class="card-header">About Predictions</div>
+    <p><strong>How it works:</strong> We use linear regression analysis on your historical blood sugar data to forecast future levels.</p>
+    <p style="margin-top: 1rem;"><strong>Confidence Score:</strong> {{ prediction_summary.confidence }}% - This indicates how well the linear model fits your data. Higher scores mean more reliable predictions.</p>
+    <p style="margin-top: 1rem;"><strong>Important:</strong> These predictions are statistical forecasts based on past trends. Many factors can affect blood sugar levels. Always consult with your healthcare provider for medical decisions.</p>
+</div>
+
+{% else %}
+<div class="card" style="text-align: center; padding: 3rem;">
+    <h2>{{ message }}</h2>
+    <p style="margin-top: 1rem; color: var(--text-light);">We need more historical data to generate accurate predictions.</p>
+    <a href="{{ url_for('readings.add') }}" class="btn btn-primary" style="margin-top: 2rem;">Add More Readings</a>
+</div>
+{% endif %}
+{% endblock %}

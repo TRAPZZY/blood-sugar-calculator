@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Goals - Blood Sugar Monitor{% endblock %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <h1>Your Health Goals</h1>
+    <a href="{{ url_for('goals.add') }}" class="btn btn-primary">Add New Goal</a>
+</div>
+
+{% if goals %}
+<div class="card">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Goal Name</th>
+                <th>Target Range</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for goal in goals %}
+            <tr>
+                <td><strong>{{ goal.name }}</strong></td>
+                <td>{{ goal.target_min }} - {{ goal.target_max }} mg/dL</td>
+                <td>
+                    {% if goal.is_active %}
+                        <span class="badge badge-success">Active</span>
+                    {% else %}
+                        <span class="badge badge-info">Inactive</span>
+                    {% endif %}
+                </td>
+                <td>{{ goal.created_at.strftime('%b %d, %Y') }}</td>
+                <td>
+                    <a href="{{ url_for('goals.edit', goal_id=goal.id) }}" class="btn btn-secondary" style="padding: 0.5rem 1rem; margin-right: 0.5rem;">Edit</a>
+                    <form method="POST" action="{{ url_for('goals.delete', goal_id=goal.id) }}" style="display: inline;">
+                        <button type="submit" class="btn btn-danger" style="padding: 0.5rem 1rem;" onclick="return confirmDelete('Are you sure you want to delete this goal?')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="card" style="text-align: center; padding: 3rem;">
+    <h2>No Goals Yet</h2>
+    <p style="margin-top: 1rem; color: var(--text-light);">Set health goals to track your progress towards optimal blood sugar levels.</p>
+    <a href="{{ url_for('goals.add') }}" class="btn btn-primary" style="margin-top: 2rem;">Create Your First Goal</a>
+</div>
+{% endif %}
+
+<div class="card">
+    <div class="card-header">About Health Goals</div>
+    <p>Health goals help you define target blood sugar ranges and track your progress. Setting personalized goals allows you to:</p>
+    <ul style="margin-top: 1rem;">
+        <li>Monitor how often your readings fall within your target range</li>
+        <li>Visualize your progress over time with goal indicators on charts</li>
+        <li>Stay motivated by seeing measurable improvements in your health</li>
+        <li>Work towards specific health outcomes with your healthcare provider</li>
+    </ul>
+</div>
+{% endblock %}

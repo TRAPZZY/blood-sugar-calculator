@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Profile - Blood Sugar Monitor{% endblock %}
+
+{% block content %}
+<h1>Your Profile</h1>
+
+<div class="card-grid">
+    <div class="card">
+        <div class="card-header">Personal Information</div>
+        <table style="width: 100%;">
+            <tr>
+                <td style="padding: 0.5rem 0; font-weight: 500;">Name:</td>
+                <td style="padding: 0.5rem 0;">{{ current_user.get_full_name() }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 0.5rem 0; font-weight: 500;">Username:</td>
+                <td style="padding: 0.5rem 0;">{{ current_user.username }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 0.5rem 0; font-weight: 500;">Email:</td>
+                <td style="padding: 0.5rem 0;">{{ current_user.email }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 0.5rem 0; font-weight: 500;">Member Since:</td>
+                <td style="padding: 0.5rem 0;">{{ current_user.created_at.strftime('%B %d, %Y') }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <div class="card-header">Your Statistics</div>
+        <table style="width: 100%;">
+            <tr>
+                <td style="padding: 0.5rem 0; font-weight: 500;">Total Readings:</td>
+                <td style="padding: 0.5rem 0;">{{ total_readings }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 0.5rem 0; font-weight: 500;">Active Goals:</td>
+                <td style="padding: 0.5rem 0;">{{ total_goals }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 0.5rem 0; font-weight: 500;">Days Tracking:</td>
+                <td style="padding: 0.5rem 0;">{{ days_tracking }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">Quick Links</div>
+    <div class="btn-group">
+        <a href="{{ url_for('main.dashboard') }}" class="btn btn-primary">Dashboard</a>
+        <a href="{{ url_for('readings.index') }}" class="btn btn-secondary">View Readings</a>
+        <a href="{{ url_for('goals.index') }}" class="btn btn-secondary">Manage Goals</a>
+        <a href="{{ url_for('goals.reminders') }}" class="btn btn-secondary">Reminder Settings</a>
+    </div>
+</div>
+{% endblock %}

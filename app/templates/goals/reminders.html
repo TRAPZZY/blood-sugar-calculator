@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Reminder Settings - Blood Sugar Monitor{% endblock %}
+
+{% block content %}
+<h1>Reminder Settings</h1>
+
+<div class="card">
+    <div class="card-header">Configure Reminders</div>
+    <p>Set up automatic reminders to help you stay consistent with your blood sugar tracking.</p>
+
+    <form method="POST" action="{{ url_for('goals.reminders') }}" style="margin-top: 2rem;">
+        <div class="form-group">
+            <label for="interval_hours" class="form-label">Reminder Interval (hours) *</label>
+            <input type="number" id="interval_hours" name="interval_hours" class="form-input" required min="1" max="24" value="{{ reminder.interval_hours if reminder else 4 }}">
+            <small>How often you want to be reminded to check your blood sugar (1-24 hours)</small>
+        </div>
+
+        <div class="form-group">
+            <label>
+                <input type="checkbox" name="is_active" class="form-checkbox" {% if not reminder or reminder.is_active %}checked{% endif %}>
+                Enable reminders
+            </label>
+        </div>
+
+        <div class="btn-group">
+            <button type="submit" class="btn btn-primary">Save Settings</button>
+            <a href="{{ url_for('main.dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+        </div>
+    </form>
+</div>
+
+<div class="card">
+    <div class="card-header">Reminder Tips</div>
+    <ul>
+        <li>Set reminders at times that work best with your daily routine</li>
+        <li>Consistent tracking helps identify patterns in your blood sugar levels</li>
+        <li>Most people benefit from checking 2-4 times per day</li>
+        <li>Reminders can be temporarily disabled if needed</li>
+    </ul>
+    {% if reminder and reminder.last_reminded_at %}
+    <p style="margin-top: 1rem;"><strong>Last Reminder:</strong> {{ reminder.last_reminded_at.strftime('%B %d, %Y at %I:%M %p') }}</p>
+    {% endif %}
+</div>
+{% endblock %}

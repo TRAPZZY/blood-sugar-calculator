@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Blood Sugar Monitor{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    {% if current_user.is_authenticated %}
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('main.dashboard') }}" class="nav-brand">Blood Sugar Monitor</a>
+            <ul class="nav-menu">
+                <li><a href="{{ url_for('main.dashboard') }}" class="nav-link">Dashboard</a></li>
+                <li><a href="{{ url_for('readings.index') }}" class="nav-link">Readings</a></li>
+                <li><a href="{{ url_for('goals.index') }}" class="nav-link">Goals</a></li>
+                <li><a href="{{ url_for('analytics.index') }}" class="nav-link">Analytics</a></li>
+                <li class="dropdown">
+                    <a href="#" class="nav-link">{{ current_user.username }} ▼</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ url_for('main.profile') }}">Profile</a></li>
+                        <li><a href="{{ url_for('goals.reminders') }}">Reminders</a></li>
+                        <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    {% endif %}
+
+    <main class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                            <button class="alert-close" onclick="this.parentElement.style.display='none'">&times;</button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 Blood Sugar Monitor. All rights reserved.</p>
+            <p class="disclaimer">Disclaimer: This tool is for informational purposes only. Always consult a healthcare professional for medical advice.</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

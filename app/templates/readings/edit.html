@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Reading - Blood Sugar Monitor{% endblock %}
+
+{% block content %}
+<h1>Edit Blood Sugar Reading</h1>
+
+<div class="card">
+    <form method="POST" action="{{ url_for('readings.edit', reading_id=reading.id) }}" onsubmit="return validateReadingForm(this)">
+        <div class="form-group">
+            <label for="value" class="form-label">Blood Sugar Value (mg/dL) *</label>
+            <input type="number" step="0.1" id="value" name="value" class="form-input" required min="0" max="600" value="{{ reading.value }}">
+        </div>
+
+        <div class="form-group">
+            <label for="reading_time" class="form-label">Date & Time</label>
+            <input type="datetime-local" id="reading_time" name="reading_time" class="form-input" value="{{ reading.reading_time.strftime('%Y-%m-%dT%H:%M') }}">
+        </div>
+
+        <div class="form-group">
+            <label for="meal_context" class="form-label">Meal Context</label>
+            <select id="meal_context" name="meal_context" class="form-select">
+                <option value="">Select...</option>
+                <option value="fasting" {% if reading.meal_context == 'fasting' %}selected{% endif %}>Fasting</option>
+                <option value="before_breakfast" {% if reading.meal_context == 'before_breakfast' %}selected{% endif %}>Before Breakfast</option>
+                <option value="after_breakfast" {% if reading.meal_context == 'after_breakfast' %}selected{% endif %}>After Breakfast</option>
+                <option value="before_lunch" {% if reading.meal_context == 'before_lunch' %}selected{% endif %}>Before Lunch</option>
+                <option value="after_lunch" {% if reading.meal_context == 'after_lunch' %}selected{% endif %}>After Lunch</option>
+                <option value="before_dinner" {% if reading.meal_context == 'before_dinner' %}selected{% endif %}>Before Dinner</option>
+                <option value="after_dinner" {% if reading.meal_context == 'after_dinner' %}selected{% endif %}>After Dinner</option>
+                <option value="bedtime" {% if reading.meal_context == 'bedtime' %}selected{% endif %}>Bedtime</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="notes" class="form-label">Notes</label>
+            <textarea id="notes" name="notes" class="form-textarea">{{ reading.notes or '' }}</textarea>
+        </div>
+
+        <div class="btn-group">
+            <button type="submit" class="btn btn-primary">Update Reading</button>
+            <a href="{{ url_for('readings.index') }}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

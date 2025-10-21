@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Compare Weeks - Blood Sugar Monitor{% endblock %}
+
+{% block content %}
+<h1>Week-to-Week Comparison</h1>
+
+{% if has_data %}
+<div class="card">
+    <div class="card-header">Weekly Summary (Last 4 Weeks)</div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Week</th>
+                <th>Average (mg/dL)</th>
+                <th>Min (mg/dL)</th>
+                <th>Max (mg/dL)</th>
+                <th>Readings</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for week, data in weeks_summary.items() %}
+            <tr>
+                <td><strong>{{ week }}</strong></td>
+                <td>{{ data.average }}</td>
+                <td>{{ data.min }}</td>
+                <td>{{ data.max }}</td>
+                <td>{{ data.count }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="card">
+    <div class="card-header">Weekly Trends Chart</div>
+    <div class="chart-container">
+        <canvas id="weeklyComparisonChart"></canvas>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">Insights</div>
+    <p>Comparing weekly averages helps you identify patterns and track the effectiveness of lifestyle changes or medication adjustments.</p>
+    <ul style="margin-top: 1rem;">
+        <li>Look for consistent trends across multiple weeks</li>
+        <li>Significant changes may warrant discussion with your healthcare provider</li>
+        <li>Week-to-week variation is normal, focus on overall trends</li>
+    </ul>
+</div>
+
+{% else %}
+<div class="card" style="text-align: center; padding: 3rem;">
+    <h2>Insufficient Data</h2>
+    <p style="margin-top: 1rem; color: var(--text-light);">Add more blood sugar readings to compare weekly trends.</p>
+    <a href="{{ url_for('readings.add') }}" class="btn btn-primary" style="margin-top: 2rem;">Add Reading</a>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+{% if has_data %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    loadChartData('/analytics/api/chart-data?type=weekly&days=30', 'weeklyComparisonChart', 'line');
+});
+</script>
+{% endif %}
+{% endblock %}

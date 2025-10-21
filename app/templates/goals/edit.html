@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Goal - Blood Sugar Monitor{% endblock %}
+
+{% block content %}
+<h1>Edit Health Goal</h1>
+
+<div class="card">
+    <form method="POST" action="{{ url_for('goals.edit', goal_id=goal.id) }}" onsubmit="return validateGoalForm(this)">
+        <div class="form-group">
+            <label for="name" class="form-label">Goal Name *</label>
+            <input type="text" id="name" name="name" class="form-input" required value="{{ goal.name }}">
+        </div>
+
+        <div class="form-group">
+            <label for="target_min" class="form-label">Target Minimum (mg/dL) *</label>
+            <input type="number" step="0.1" id="target_min" name="target_min" class="form-input" required min="0" max="600" value="{{ goal.target_min }}">
+        </div>
+
+        <div class="form-group">
+            <label for="target_max" class="form-label">Target Maximum (mg/dL) *</label>
+            <input type="number" step="0.1" id="target_max" name="target_max" class="form-input" required min="0" max="600" value="{{ goal.target_max }}">
+        </div>
+
+        <div class="form-group">
+            <label>
+                <input type="checkbox" name="is_active" class="form-checkbox" {% if goal.is_active %}checked{% endif %}>
+                Goal is active
+            </label>
+        </div>
+
+        <div class="btn-group">
+            <button type="submit" class="btn btn-primary">Update Goal</button>
+            <a href="{{ url_for('goals.index') }}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
