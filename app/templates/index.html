@@ -1,69 +1,160 @@
 {% extends "base.html" %}
 
-{% block title %}Blood Sugar Monitor - Track Your Health{% endblock %}
+{% block title %}GlucoFlow - Smart Blood Sugar Monitoring Platform{% endblock %}
 
 {% block content %}
+<!-- Hero Section -->
 <div class="hero">
-    <h1 class="hero-title">Blood Sugar Monitor</h1>
-    <p class="hero-subtitle">Take control of your health with comprehensive blood sugar tracking and analysis</p>
+    <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 2rem;">
+        <div style="font-size: 5rem; animation: float 3s ease-in-out infinite;">💧</div>
+    </div>
+    <h1 class="hero-title">GlucoFlow</h1>
+    <p class="hero-subtitle">Smart blood sugar monitoring with AI-powered insights and personalized health analytics</p>
     <div class="btn-group" style="justify-content: center;">
-        <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Get Started</a>
-        <a href="{{ url_for('auth.login') }}" class="btn btn-secondary">Login</a>
+        <a href="{{ url_for('auth.register') }}" class="btn btn-primary">🚀 Get Started Free</a>
+        <a href="{{ url_for('auth.login') }}" class="btn btn-secondary">🔐 Sign In</a>
+    </div>
+
+    <!-- Stats Bar -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 2rem; margin-top: 4rem; max-width: 900px; margin-left: auto; margin-right: auto;">
+        <div style="text-align: center;">
+            <div style="font-size: 2.5rem; font-weight: 800; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">24/7</div>
+            <div style="color: var(--text-light); font-size: 0.875rem; margin-top: 0.5rem;">Monitoring</div>
+        </div>
+        <div style="text-align: center;">
+            <div style="font-size: 2.5rem; font-weight: 800; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">100%</div>
+            <div style="color: var(--text-light); font-size: 0.875rem; margin-top: 0.5rem;">HIPAA Secure</div>
+        </div>
+        <div style="text-align: center;">
+            <div style="font-size: 2.5rem; font-weight: 800; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">∞</div>
+            <div style="color: var(--text-light); font-size: 0.875rem; margin-top: 0.5rem;">Readings</div>
+        </div>
     </div>
 </div>
 
+<!-- Features Grid -->
 <div class="feature-grid">
     <div class="feature-card">
         <div class="feature-icon">📊</div>
         <h3 class="feature-title">Track & Analyze</h3>
-        <p>Record your blood sugar levels and get instant insights into your health trends with detailed analytics and visualizations.</p>
+        <p>Record your blood sugar levels and get instant insights into your health trends with detailed analytics, interactive charts, and comprehensive visualizations.</p>
     </div>
 
     <div class="feature-card">
         <div class="feature-icon">🎯</div>
-        <h3 class="feature-title">Set Goals</h3>
-        <p>Define personalized target ranges and track your progress towards achieving optimal blood sugar levels.</p>
+        <h3 class="feature-title">Smart Goals</h3>
+        <p>Define personalized target ranges and track your progress towards achieving optimal blood sugar levels with intelligent goal-tracking systems.</p>
     </div>
 
     <div class="feature-card">
         <div class="feature-icon">📈</div>
-        <h3 class="feature-title">Predict Trends</h3>
-        <p>Use advanced linear regression analysis to forecast your blood sugar levels and plan ahead.</p>
+        <h3 class="feature-title">AI Predictions</h3>
+        <p>Use advanced linear regression analysis to forecast your blood sugar levels and plan ahead with confidence using predictive algorithms.</p>
     </div>
 
     <div class="feature-card">
         <div class="feature-icon">🔔</div>
         <h3 class="feature-title">Smart Reminders</h3>
-        <p>Never miss a reading with customizable reminder intervals to maintain consistent tracking.</p>
+        <p>Never miss a reading with customizable reminder intervals and intelligent notification systems to maintain consistent tracking habits.</p>
     </div>
 
     <div class="feature-card">
         <div class="feature-icon">🍽️</div>
-        <h3 class="feature-title">Meal Suggestions</h3>
-        <p>Get personalized meal recommendations based on your current blood sugar levels and goals.</p>
+        <h3 class="feature-title">Meal Guidance</h3>
+        <p>Get personalized meal recommendations and nutrition advice based on your current blood sugar levels, goals, and health patterns.</p>
     </div>
 
     <div class="feature-card">
         <div class="feature-icon">📥</div>
-        <h3 class="feature-title">Export Data</h3>
-        <p>Download your blood sugar data as CSV files to share with healthcare professionals or for further analysis.</p>
+        <h3 class="feature-title">Export & Share</h3>
+        <p>Download your blood sugar data as professional CSV reports to share with healthcare professionals or for detailed personal analysis.</p>
     </div>
 </div>
 
-<div class="card" style="margin-top: 3rem; text-align: center;">
-    <h2>Why Choose Blood Sugar Monitor?</h2>
-    <p style="margin-top: 1rem; color: var(--text-light);">
-        Our application provides a comprehensive, user-friendly platform for managing your blood sugar levels.
-        With detailed analytics, personalized insights, and easy-to-use tracking tools, you can take control
-        of your health and make informed decisions about your wellness journey.
-    </p>
-    <ul style="margin-top: 2rem; text-align: left; max-width: 600px; margin-left: auto; margin-right: auto;">
-        <li style="margin-bottom: 1rem;">✅ HIPAA Compliant - Your data is secure and private</li>
-        <li style="margin-bottom: 1rem;">✅ Personalized Experience - Tailored to your unique needs</li>
-        <li style="margin-bottom: 1rem;">✅ Advanced Analytics - Deep insights into your health trends</li>
-        <li style="margin-bottom: 1rem;">✅ Easy to Use - Intuitive interface for effortless tracking</li>
-        <li style="margin-bottom: 1rem;">✅ Always Accessible - Access your data anytime, anywhere</li>
-    </ul>
-    <a href="{{ url_for('auth.register') }}" class="btn btn-primary" style="margin-top: 2rem;">Start Your Health Journey Today</a>
+<!-- Why Choose Section -->
+<div class="card" style="margin-top: 4rem; background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%); border: none;">
+    <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 2rem; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Why Choose GlucoFlow?</h2>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
+        <div style="background: white; padding: 2rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+            <div style="font-size: 2.5rem; margin-bottom: 1rem;">🔒</div>
+            <h3 style="margin-bottom: 1rem; color: var(--dark-color);">HIPAA Compliant</h3>
+            <p style="color: var(--text-light);">Your health data is encrypted and secure. We follow strict HIPAA regulations to protect your privacy.</p>
+        </div>
+
+        <div style="background: white; padding: 2rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+            <div style="font-size: 2.5rem; margin-bottom: 1rem;">🎨</div>
+            <h3 style="margin-bottom: 1rem; color: var(--dark-color);">Personalized Experience</h3>
+            <p style="color: var(--text-light);">Tailored dashboards, custom goals, and insights designed specifically for your unique health journey.</p>
+        </div>
+
+        <div style="background: white; padding: 2rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+            <div style="font-size: 2.5rem; margin-bottom: 1rem;">🧠</div>
+            <h3 style="margin-bottom: 1rem; color: var(--dark-color);">Advanced Analytics</h3>
+            <p style="color: var(--text-light);">Deep insights, trend analysis, and predictive modeling to help you stay ahead of your health.</p>
+        </div>
+
+        <div style="background: white; padding: 2rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+            <div style="font-size: 2.5rem; margin-bottom: 1rem;">⚡</div>
+            <h3 style="margin-bottom: 1rem; color: var(--dark-color);">Easy to Use</h3>
+            <p style="color: var(--text-light);">Intuitive interface designed for effortless tracking. Add readings in seconds, anywhere, anytime.</p>
+        </div>
+
+        <div style="background: white; padding: 2rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+            <div style="font-size: 2.5rem; margin-bottom: 1rem;">📱</div>
+            <h3 style="margin-bottom: 1rem; color: var(--dark-color);">Always Accessible</h3>
+            <p style="color: var(--text-light);">Access your data on any device - desktop, tablet, or mobile. Your health data syncs everywhere.</p>
+        </div>
+
+        <div style="background: white; padding: 2rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+            <div style="font-size: 2.5rem; margin-bottom: 1rem;">🏥</div>
+            <h3 style="margin-bottom: 1rem; color: var(--dark-color);">Healthcare Ready</h3>
+            <p style="color: var(--text-light);">Export professional reports to share with your doctor and healthcare team for better care.</p>
+        </div>
+    </div>
 </div>
+
+<!-- How It Works Section -->
+<div class="card" style="margin-top: 4rem; text-align: center;">
+    <h2 style="font-size: 2.5rem; margin-bottom: 3rem; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">How It Works</h2>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem; max-width: 1000px; margin: 0 auto;">
+        <div>
+            <div style="width: 80px; height: 80px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; color: white; font-size: 2rem; font-weight: 800; box-shadow: var(--shadow-lg);">1</div>
+            <h3 style="margin-bottom: 1rem; color: var(--dark-color);">Create Account</h3>
+            <p style="color: var(--text-light);">Sign up in seconds with your email. No credit card required.</p>
+        </div>
+
+        <div>
+            <div style="width: 80px; height: 80px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; color: white; font-size: 2rem; font-weight: 800; box-shadow: var(--shadow-lg);">2</div>
+            <h3 style="margin-bottom: 1rem; color: var(--dark-color);">Add Readings</h3>
+            <p style="color: var(--text-light);">Record your blood sugar levels with time, context, and notes.</p>
+        </div>
+
+        <div>
+            <div style="width: 80px; height: 80px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; color: white; font-size: 2rem; font-weight: 800; box-shadow: var(--shadow-lg);">3</div>
+            <h3 style="margin-bottom: 1rem; color: var(--dark-color);">Get Insights</h3>
+            <p style="color: var(--text-light);">View trends, predictions, and personalized recommendations.</p>
+        </div>
+
+        <div>
+            <div style="width: 80px; height: 80px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; color: white; font-size: 2rem; font-weight: 800; box-shadow: var(--shadow-lg);">4</div>
+            <h3 style="margin-bottom: 1rem; color: var(--dark-color);">Stay Healthy</h3>
+            <p style="color: var(--text-light);">Use data-driven insights to maintain optimal blood sugar levels.</p>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Section -->
+<div class="card" style="margin-top: 4rem; text-align: center; background: var(--gradient-primary); color: white; border: none;">
+    <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Ready to Take Control of Your Health?</h2>
+    <p style="font-size: 1.25rem; margin-bottom: 2rem; opacity: 0.95;">Join thousands of people managing their blood sugar with GlucoFlow</p>
+    <div class="btn-group" style="justify-content: center;">
+        <a href="{{ url_for('auth.register') }}" class="btn" style="background: white; color: var(--primary-color); box-shadow: var(--shadow-lg);">🚀 Start Free Today</a>
+    </div>
+    <p style="margin-top: 1.5rem; font-size: 0.875rem; opacity: 0.8;">No credit card required • Free forever • 2 minute setup</p>
+</div>
+
+<!-- Visual Divider -->
+<div style="height: 4rem;"></div>
 {% endblock %}

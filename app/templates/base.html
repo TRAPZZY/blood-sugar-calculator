@@ -3,16 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Blood Sugar Monitor{% endblock %}</title>
+    <title>{% block title %}GlucoFlow - Smart Blood Sugar Monitoring{% endblock %}</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💧</text></svg>">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <!-- Meta Tags -->
+    <meta name="description" content="GlucoFlow - Professional blood sugar monitoring and analytics platform">
+    <meta name="theme-color" content="#0891b2">
+
     {% block extra_css %}{% endblock %}
 </head>
 <body>
     {% if current_user.is_authenticated %}
     <nav class="navbar">
         <div class="nav-container">
-            <a href="{{ url_for('main.dashboard') }}" class="nav-brand">Blood Sugar Monitor</a>
+            <a href="{{ url_for('main.dashboard') }}" class="nav-brand">GlucoFlow</a>
             <ul class="nav-menu">
                 <li><a href="{{ url_for('main.dashboard') }}" class="nav-link">Dashboard</a></li>
                 <li><a href="{{ url_for('readings.index') }}" class="nav-link">Readings</a></li>
@@ -50,8 +67,8 @@
 
     <footer class="footer">
         <div class="footer-content">
-            <p>&copy; 2024 Blood Sugar Monitor. All rights reserved.</p>
-            <p class="disclaimer">Disclaimer: This tool is for informational purposes only. Always consult a healthcare professional for medical advice.</p>
+            <p>&copy; 2024 <strong>GlucoFlow</strong> - Smart Blood Sugar Monitoring. All rights reserved.</p>
+            <p class="disclaimer">⚕️ Medical Disclaimer: This tool is for informational purposes only. Always consult a healthcare professional for medical advice.</p>
         </div>
     </footer>
 
